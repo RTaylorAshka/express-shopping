@@ -2,9 +2,10 @@ const express = require('express');
 const ExpressError = require('./expressError');
 const itemRoutes = require('./itemRoutes')
 const app = express();
+const morgan = require('morgan');
 
 
-
+app.use(morgan('dev'));
 app.use(express.json())
 
 app.use('/items', itemRoutes)
@@ -20,11 +21,8 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
 
     return res.json({
-        error: err,
-        message: err.message
+        error: err
     });
 });
 
-app.listen(3000, () => {
-    console.log('Running on port 3000')
-})
+module.exports = app;
